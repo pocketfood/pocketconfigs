@@ -61,6 +61,7 @@ Sure! Here’s a step-by-step guide on how to generate OpenVPN client configurat
    cipher AES-256-CBC
    comp-lzo
    verb 3
+   auth-auth-pass
    ```
 
    Replace `your_server_ip` and `your_server_port` with your OpenVPN server's public IP address and port (usually `1194`), and ensure that the paths for `ca`, `cert`, and `key` are accurate.
