@@ -1,5 +1,3 @@
-Sure! Here’s a step-by-step guide on how to generate OpenVPN client configurations once you have your server set up and the necessary certificates and keys prepared.
-
 ### Steps to Generate OpenVPN Client Configs
 
 1. **SSH into Your OpenVPN Server:**
@@ -46,7 +44,7 @@ Sure! Here’s a step-by-step guide on how to generate OpenVPN client configurat
 6. **Create the Client Configuration File:**
    You can create a `.ovpn` file using a text editor on the server. Here is a sample configuration you can use:
 
-   ```ini
+   ```config
    client
    dev tun
    proto udp
@@ -66,21 +64,41 @@ Sure! Here’s a step-by-step guide on how to generate OpenVPN client configurat
 
    Replace `your_server_ip` and `your_server_port` with your OpenVPN server's public IP address and port (usually `1194`), and ensure that the paths for `ca`, `cert`, and `key` are accurate.
 
-7. **Transfer the Client Config:**
+   **OTHER OPTION BELOW**
+   
+   For Ovpn files that have ca, crt and key together with the ovpn config. Remove or comment out ca, cert, and key from config above and add the cert blocks for each cert respectively. 
+
+   ```bash
+   # touch client.ovpn && printf "<ca>\n" >> client.ovpn && cat ca.crt >> client.ovpn && printf "\n</ca>\n<cert>\n" >> client.ovpn && cat cert.crt >> client.ovpn && printf "\n</cert>\n<key>\n" >> client.ovpn    && cat client.key >> client.ovpn && printf "\n</key>\n" >> client.ovpn
+   ```
+
+   ```config
+   <ca>
+   </ca>
+   <cert>
+   </cert>
+   <key>
+   </key>
+
+   #ca ca.crt
+   #cert client_name.crt
+   #key client_name.key
+   ```
+8. **Transfer the Client Config:**
    Transfer the `.ovpn` file and related certificates/keys to your client device. You can use SCP, SFTP, or any file transfer method you're comfortable with.
 
    ```bash
    scp your_config.ovpn user@client_ip:/path/to/save/
    ```
 
-8. **Connect Using OpenVPN Client:**
+9. **Connect Using OpenVPN Client:**
    On the client machine, use the OpenVPN client to connect:
 
    ```bash
    openvpn --config /path/to/your/client/config.ovpn
    ```
 
-9. **Verify Connection:**
+10. **Verify Connection:**
    Check the OpenVPN logs for any errors, and verify that the connection is established correctly.
 
 ### Additional Notes:
